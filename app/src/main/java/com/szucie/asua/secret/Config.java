@@ -33,12 +33,15 @@ public class Config {
     public static final  String  ACTION_UPLOAD_CONTACKS = "upload_contacts";
     public static final  String  ACTION_CONTACKS = "contacks";
     public static final  String ACTION_TIMELINE ="timeline" ;
+    public static final  String ACTION_PUB_COMMENT ="pub_comment" ;
+    public static final String ACTION_PUB_MESSAGE = "publish";
 
     //配置返回状态的常量
     public static final  String STATUS = "status";
     public static final  int STATUS_SUCCESS = 1;
     public static final  int STATUS_FAIL = 0;
     public static final  int STATUS_TOKEN_INVALID = 2;
+    public static final  int ATY_NEED_FRESH = 0;
 
 
     // public static final  String KEY_ITEMS = "items";

@@ -28,5 +28,11 @@
     <string name="get_comment_ing">正在获取评论</string>
     <string name="get_comment_success">获取评论成功</string>
     <string name="get_comment_fail">获取评论失败</string>
+    <string name="comment_not_null">评论不能为空</string>
+    <string name="publish_comment_fail">发布评论失败</string>
+    <string name="publish_comment_success">发布评论成功</string>
+    <string name="pub_message_not_null">发布的消息不能为空</string>
+    <string name="pub_message_fail">消息发布失败</string>
+    <string name="pub_message_success">消息发布成功</string>
 
 </resources>

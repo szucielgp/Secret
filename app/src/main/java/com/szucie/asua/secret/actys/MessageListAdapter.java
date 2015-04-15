@@ -23,6 +23,10 @@ public class MessageListAdapter extends BaseAdapter {
         this.context = context;
         this.msgs = msgs;
     };
+
+    public MessageListAdapter(Context context){
+        this.context = context;
+    }
     @Override
     public int getCount() {
         return msgs.size();

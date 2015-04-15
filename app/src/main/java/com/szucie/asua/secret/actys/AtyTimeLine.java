@@ -24,18 +24,20 @@ import com.szucie.asua.secret.tools.Phone_md5;
 
 import java.util.List;
 
-public class AtyTimeLine extends Activity {//当其中有listView这些时，一般从他继承
+public class AtyTimeLine extends ActionBarActivity {//当其中有listView这些时，一般从他继承
 
     String phoneNum,token,phone_md5;
     public ListView listView ;//设置为全局的可以让下面的使用
-    public static  MessageListAdapter messageListAdapter=null;
+    public   MessageListAdapter messageListAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acy_time_line);
         Intent intent = getIntent();
+       // messageListAdapter = new MessageListAdapter(AtyTimeLine.this);
        // listView = (ListView) findViewById(android.R.id.list);//名字必须是list！！
         listView = (ListView) findViewById(R.id.atytimeline);//名字必须是list！！
+      //  listView.setAdapter(messageListAdapter);
         token = intent.getStringExtra(Config.KEY_TOKEN);
         phoneNum = intent.getStringExtra(Config.KEY_PHONE);
         phone_md5 = Phone_md5.md5(phoneNum);
@@ -47,7 +49,7 @@ public class AtyTimeLine extends Activity {//当其中有listView这些时，一
                 Intent i = new Intent(AtyTimeLine.this, AtyMessage.class);
                 i.putExtra(Config.KEY_MESSAGE, msg.getMessage());
                 i.putExtra(Config.KEY_MESS_ID, msg.getMes_id());
-                i.putExtra(Config.KEY_PHONE_MD5, msg.getPhone_md5());
+                i.putExtra(Config.KEY_PHONE_MD5, msg.getPhone_md5());//这是消息的phone_md5，不是自己手机号的
                 i.putExtra(Config.KEY_TOKEN, token);
                 startActivity(i);
             }
@@ -91,8 +93,11 @@ public class AtyTimeLine extends Activity {//当其中有listView这些时，一
             @Override
             public void onSuccess(int page, int perpage, List<Message> list) {
                 pd.dismiss();
+                //这样实现的话，每次加载消息都需要new一个adapter，不太好，只需要new一个即可
                messageListAdapter = new MessageListAdapter(AtyTimeLine.this,list);
-               // messageListAdapter.clear();
+
+//                messageListAdapter.clear();
+//                messageListAdapter.addAll(list);
                 listView.setAdapter(messageListAdapter);
                 Toast.makeText(AtyTimeLine.this,getResources().getString(R.string.get_message_success),Toast.LENGTH_SHORT).show();
 
@@ -143,10 +148,27 @@ public class AtyTimeLine extends Activity {//当其中有listView这些时，一
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.pubmessageaty) {
+            Intent i  = new Intent(AtyTimeLine.this,ActyPubMessage.class);
+            i.putExtra(Config.KEY_PHONE_MD5,phone_md5);
+            i.putExtra(Config.KEY_TOKEN,token);
+            startActivityForResult(i,0);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            case Config.ATY_NEED_FRESH:
+                loadMessage();//重新加载一遍消息
+                break;
+            default:
+                break;
+
+        }
     }
 }
