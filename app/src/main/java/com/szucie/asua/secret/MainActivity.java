@@ -21,8 +21,8 @@ public class MainActivity extends ActionBarActivity {
         //拿到缓存的token和号码
         String token = Config.getCashedToken(this);
         String phoneNum = Config.getCachedPhoneNum(this);
-       System.out.println(MyContacts.getContacts(this));
-        startActivity(new Intent(MainActivity.this, ActyPubMessage.class));
+        System.out.println(MyContacts.getContacts(this));
+       // startActivity(new Intent(MainActivity.this, ActyPubMessage.class));
         if (token!=null && phoneNum!=null) {//因为缓存了token，所以再次打开的时候，不再执行登陆的操作
             Intent intent = new Intent(this,AtyTimeLine.class);
             intent.putExtra(Config.KEY_TOKEN,token);
